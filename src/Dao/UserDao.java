@@ -5,20 +5,20 @@ import java.sql.SQLException;
 
 import Model.User;
 
-public abstract class UserDao {
-	private SimpleConnectionMaker simpleConnectionMaker;
+public class UserDao {
+	private ConnectionMaker connectionMaker;
 	
-	public UserDao() {
-		simpleConnectionMaker = new SimpleConnectionMaker();
+	public UserDao(ConnectionMaker connectionMaker) {
+		this.connectionMaker = connectionMaker;
 	}
 	
 	public void create(User user ) throws ClassNotFoundException, SQLException{
-		Connection c = simpleConnectionMaker.makeNewConnection();
+		Connection c = connectionMaker.makeNewConnection();
 //		insert
 	}
 	
 	public void recieve(User user) throws ClassNotFoundException, SQLException{
-		Connection c = simpleConnectionMaker.makeNewConnection();
+		Connection c = connectionMaker.makeNewConnection();
 //		recieve
 	}
 	
