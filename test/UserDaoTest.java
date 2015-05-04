@@ -2,12 +2,12 @@ import static org.junit.Assert.*;
 
 import java.sql.SQLException;
 
-import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import javax.sql.DataSource;
 
-import Dao.DaoFactory;
+import org.junit.Test;
+
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+
 import Dao.UserDao;
 import Model.User;
 
@@ -16,12 +16,11 @@ public class UserDaoTest {
 	@Test
 	public void test() throws ClassNotFoundException, SQLException {
 
-		// ApplicationContext context = new
-		// AnnotationConfigApplicationContext(DaoFactory.class);
-		ApplicationContext context = new GenericXmlApplicationContext("/applicationContext.xml");
-		UserDao userDao = context.getBean("userDao", UserDao.class);
+		UserDao userDao = new UserDao();
+		DataSource dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost/springbook", "spring_developer", "1111", true);
+		userDao.setDataSource(dataSource);
 		User user = new User();
-
+		
 		userDao.create(user);
 		userDao.recieve(user);
 	}
