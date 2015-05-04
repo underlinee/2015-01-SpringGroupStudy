@@ -9,19 +9,19 @@ import Model.User;
 
 public class UserDao {
 	private DataSource dataSource;
-	
+
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
 
-	public void create(User user ) throws ClassNotFoundException, SQLException{
+	public void create(User user) throws ClassNotFoundException, SQLException {
 		Connection c = dataSource.getConnection();
-//		insert
+		// insert
 	}
-	
-	public void recieve(User user) throws ClassNotFoundException, SQLException{
+
+	public void recieve(User user) throws ClassNotFoundException, SQLException {
 		Connection c = dataSource.getConnection();
-//		recieve
+		// recieve
 	}
-	
+
 }
