@@ -4,10 +4,16 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:c="http://www.springframework.org/schema/c"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	<bean id="connectionMaker" class="Dao.ProductDBConnectionMaker"/>
 	
 	<bean id="userDao" class="Dao.UserDao"
-		c:connectionMaker-ref="connectionMaker"
+		p:dataSource-ref="dataSource"
+	/>
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource"
+		p:driverClass="com.mysql.jdbc.Driver"
+		p:url="jdbc:mysql://localhost/springbook"
+		p:username="spring_developer"
+		p:password="1111"
 	/>
 
 </beans>
