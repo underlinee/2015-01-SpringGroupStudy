@@ -2,7 +2,6 @@ import static org.junit.Assert.*;
 
 import java.sql.SQLException;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +14,14 @@ import Dao.UserDao;
 import Model.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations="/applicationContext.xml")
+@ContextConfiguration(locations = "/applicationContext.xml")
 public class UserDaoTest {
 
 	@Autowired
 	private ApplicationContext context;
+	@Autowired
 	private UserDao userDao;
-	
-	@Before
-	public void setUp(){
-		this.userDao = context.getBean("userDao", UserDao.class);
-	}
-	
+
 	@Test
 	public void test() throws ClassNotFoundException, SQLException {
 
@@ -50,8 +45,8 @@ public class UserDaoTest {
 		assertEquals(user, dbUser);
 
 	}
-	
-	@Test(expected=EmptyResultDataAccessException.class)
+
+	@Test(expected = EmptyResultDataAccessException.class)
 	public void getUserFailure() throws Exception {
 		User user = new User();
 		user.setId("jojo1");
