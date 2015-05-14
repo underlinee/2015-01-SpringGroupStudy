@@ -23,10 +23,20 @@ public class UserDaoTest {
 		user.setName("jobi");
 		user.setPassword("1111");
 
+		int count;
+		userDao.deleteAll();
+		count = userDao.getCount();
+		assertEquals(count, 0);
+		
 		userDao.create(user);
+		count = userDao.getCount();
+		assertEquals(count, 1);
+		
 		User dbUser = userDao.recieve(user.getId());
+		assertEquals(count, 1);
 		
 		assertEquals(user, dbUser);
+		
 		
 		
 	}
