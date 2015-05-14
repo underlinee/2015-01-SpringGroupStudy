@@ -2,16 +2,11 @@ import static org.junit.Assert.*;
 
 import java.sql.SQLException;
 
-import javax.sql.DataSource;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -19,22 +14,13 @@ import Dao.UserDao;
 import Model.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/applicationContext.xml")
-@DirtiesContext
+@ContextConfiguration(locations = "/test-applicationContext.xml")
 public class UserDaoTest {
 
 	@Autowired
 	private ApplicationContext context;
 	@Autowired
 	private UserDao userDao;
-
-	@Before
-	public void setUp() {
-		DataSource dataSource = new SingleConnectionDataSource
-				("jdbc:mysql://localhost/spring_test", "spring_developer", "1111", true);
-		userDao.setDataSource(dataSource);
-
-	}
 
 	@Test
 	public void test() throws ClassNotFoundException, SQLException {
