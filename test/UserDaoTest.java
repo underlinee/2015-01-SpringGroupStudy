@@ -2,6 +2,7 @@ import static org.junit.Assert.*;
 
 import java.sql.SQLException;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
@@ -13,12 +14,17 @@ import Model.User;
 public class UserDaoTest {
 
 	private ApplicationContext context;
-
+	private UserDao userDao;
+	
+	@Before
+	public void setUp(){
+		context = new GenericXmlApplicationContext("/applicationContext.xml");
+		this.userDao = context.getBean("userDao", UserDao.class);
+	}
+	
 	@Test
 	public void test() throws ClassNotFoundException, SQLException {
 
-		context = new GenericXmlApplicationContext("/applicationContext.xml");
-		UserDao userDao = context.getBean("userDao", UserDao.class);
 		User user = new User();
 		user.setId("jojo1");
 		user.setName("jobi");
@@ -42,8 +48,6 @@ public class UserDaoTest {
 	
 	@Test(expected=EmptyResultDataAccessException.class)
 	public void getUserFailure() throws Exception {
-		context = new GenericXmlApplicationContext("/applicationContext.xml");
-		UserDao userDao = context.getBean("userDao", UserDao.class);
 		User user = new User();
 		user.setId("jojo1");
 		user.setName("jobi");
