@@ -64,5 +64,11 @@ public class UserDaoTest {
 
 		assertEquals(user, dbUser);
 	}
+	
+	@Test
+	public void getAll() throws Exception {
+		userDao.deleteAll();
+		assertEquals(userDao.getAll().size(), 0);
+	}
 
 }
