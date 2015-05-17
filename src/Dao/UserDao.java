@@ -12,14 +12,19 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import Model.User;
 
 public class UserDao {
+	private JdbcContext jdbcContext;
 	private DataSource dataSource;
+
+	public void setJdbcContext(JdbcContext jdbcContext) {
+		this.jdbcContext = jdbcContext;
+	}
 
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
 
 	public void create(User user) throws SQLException {
-		StatementStrategy strategy = new StatementStrategy() {
+		this.jdbcContext.workWithStatementStrategy(new StatementStrategy() {
 			public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
 				PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?,?,?)");
 				ps.setString(1, user.getId());
@@ -27,8 +32,7 @@ public class UserDao {
 				ps.setString(3, user.getPassword());
 				return ps;
 			}
-		};
-		jdbcContextWithStatementStrategy(strategy);
+		});
 	}
 
 	public User recieve(String id) throws SQLException {
@@ -54,41 +58,11 @@ public class UserDao {
 	}
 
 	public void deleteAll() throws SQLException {
-		StatementStrategy strategy = new StatementStrategy() {
+		this.jdbcContext.workWithStatementStrategy(new StatementStrategy() {
 			public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
 				return c.prepareStatement("delete from users");
 			}
-		};
-		jdbcContextWithStatementStrategy(strategy);
-	}
-
-	private void jdbcContextWithStatementStrategy(StatementStrategy strategy) throws SQLException {
-		Connection c = null;
-		PreparedStatement ps = null;
-		try {
-			c = dataSource.getConnection();
-			ps = strategy.makePreparedStatement(c);
-			ps.executeUpdate();
-
-			ps.close();
-			c.close();
-
-		} catch (SQLException e) {
-			throw e;
-		} finally {
-			if (ps != null) {
-				try {
-					ps.close();
-				} catch (SQLException e) {
-				}
-			}
-			if (c != null) {
-				try {
-					c.close();
-				} catch (SQLException e) {
-				}
-			}
-		}
+		});
 	}
 
 	public int getCount() throws SQLException {
