@@ -15,11 +15,14 @@ public class UserDao {
 	private JdbcContext jdbcContext;
 	private DataSource dataSource;
 
+	//jdbc Context 를 bean 등록 할 경우
 	public void setJdbcContext(JdbcContext jdbcContext) {
 		this.jdbcContext = jdbcContext;
 	}
 
 	public void setDataSource(DataSource dataSource) {
+		this.jdbcContext = new JdbcContext();
+		this.jdbcContext.setDataSource(dataSource);
 		this.dataSource = dataSource;
 	}
 
@@ -58,12 +61,10 @@ public class UserDao {
 	}
 
 	public void deleteAll() throws SQLException {
-		this.jdbcContext.workWithStatementStrategy(new StatementStrategy() {
-			public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
-				return c.prepareStatement("delete from users");
-			}
-		});
+		this.jdbcContext.executeSql("delete from users");
 	}
+
+	
 
 	public int getCount() throws SQLException {
 		Connection c = dataSource.getConnection();
