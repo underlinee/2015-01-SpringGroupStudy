@@ -4,20 +4,45 @@ import java.io.IOException;
 
 public class Calculator {
 
-	public int calcSum(String path) throws IOException {
+	public int calcSum(String path){
+		LineCallback<Integer> sumCallback = new LineCallback<Integer>() {
+			public Integer doSomethingWithLine(String line, Integer value) {
+				return value + Integer.valueOf(line);
+			}
+		};
+		return lineReadTemplate(path, sumCallback, 0);
+		
+
+	}
+	public Object calcMultiply(String path) {
+		LineCallback<Integer> sumCallback = new LineCallback<Integer>() {
+			public Integer doSomethingWithLine(String line, Integer value) {
+				return value * Integer.valueOf(line);
+			}
+		};
+		return lineReadTemplate(path, sumCallback, 1);
+	}
+	
+	public Object concantenate(String path) {
+		LineCallback<String> concatenateCallback = new LineCallback<String>() {
+			public String doSomethingWithLine(String line, String value) {
+				return value + line;
+			}
+		};
+		return lineReadTemplate(path, concatenateCallback, "");
+	}
+
+	private <T> T lineReadTemplate(String path, LineCallback<T> sumCallback, T result) {
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(path));
-			int sum = 0;
 			String line = null;
 			while ((line = br.readLine()) != null) {
-				sum += Integer.valueOf(line);
+				result = sumCallback.doSomethingWithLine(line, result);
 			}
 
-			return sum;
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
-			throw e;
 		} finally {
 			if (br != null) {
 				try {
@@ -27,7 +52,9 @@ public class Calculator {
 				}
 			}
 		}
-
+		return result;
 	}
+
+
 
 }
