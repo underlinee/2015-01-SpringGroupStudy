@@ -11,8 +11,8 @@ import org.springframework.jdbc.core.RowMapper;
 import Model.User;
 
 public interface UserDao {
-	
-	RowMapper<User> userMapper = new RowMapper<User>(){
+
+	RowMapper<User> userMapper = new RowMapper<User>() {
 		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 			User user = new User();
 			user.setId(rs.getString("id"));
@@ -21,19 +21,17 @@ public interface UserDao {
 			return user;
 		}
 	};
-	public void setDataSource(DataSource dataSource);
 
-	public void create(User user);
+	void setDataSource(DataSource dataSource);
 
-	public User recieve(String id);
+	void create(User user);
 
-	public void deleteAll();
+	User recieve(String id);
 
-	
+	void deleteAll();
 
-	public int getCount();
+	int getCount();
 
-	public List<User> getAll();
-
+	List<User> getAll();
 
 }
