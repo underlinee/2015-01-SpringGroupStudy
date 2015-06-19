@@ -1,9 +1,15 @@
 package Model;
 
+
 public class User {
+	
 	private String id;
 	private String name;
 	private String password;
+	private Level level;
+	private int login;
+	private int recommend;
+	
 	
 	public String getId() {
 		return id;
@@ -23,6 +29,25 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public Level getLevel() {
+		return level;
+	}
+	public void setLevel(Level level) {
+		this.level = level;
+	}
+	public int getLogin() {
+		return login;
+	}
+	public void setLogin(int login) {
+		this.login = login;
+	}
+	public int getRecommend() {
+		return recommend;
+	}
+	public void setRecommend(int recommend) {
+		this.recommend = recommend;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
