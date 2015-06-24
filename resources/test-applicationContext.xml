@@ -6,6 +6,7 @@
 	
 	
 	<bean id="userService" class="Service.UserService"/>
+	<bean id="UserLevelUpgradePolicy" class="Service.UserLevelUpgradePolicySimple" />
 	<bean id="userDao" class="Dao.UserDaoByJdbc" p:dataSource-ref="dataSource" />
 
 	<bean id="dataSource"

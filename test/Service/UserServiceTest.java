@@ -1,7 +1,7 @@
 package Service;
 
-import static Service.UserService.MIN_LOGCOUNT_FOR_SILVER;
-import static Service.UserService.MIN_RECOMMEND_FOR_GOLD;
+import static Service.UserLevelUpgradePolicySimple.MIN_LOGCOUNT_FOR_SILVER;
+import static Service.UserLevelUpgradePolicySimple.MIN_RECOMMEND_FOR_GOLD;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;

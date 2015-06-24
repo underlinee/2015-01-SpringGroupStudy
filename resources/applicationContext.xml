@@ -5,12 +5,15 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="userService" class="Service.UserService"/>
+	<bean id="UserLevelUpgradePolicy" class="Service.UserLevelUpgradePolicySimple" />
+	
 	<bean id="userDao" class="Dao.UserDaoByJdbc" p:dataSource-ref="dataSource" />
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.SimpleDriverDataSource"
 		p:driverClass="com.mysql.jdbc.Driver" p:url="jdbc:mysql://localhost/spring_test"
 		p:username="spring_developer" p:password="1111" />
+		
 		
 
 </beans>
