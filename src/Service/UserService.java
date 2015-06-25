@@ -12,9 +12,14 @@ public class UserService {
 
 	@Autowired
 	UserDao userDao;
-	
+
 	@Autowired
 	UserLevelUpgradePolicy userLevelUpgradePolicy;
+
+	public void setUserLevelUpgradePolicy(
+			UserLevelUpgradePolicy userLevelUpgradePolicy) {
+		this.userLevelUpgradePolicy = userLevelUpgradePolicy;
+	}
 
 	void upgradeLevels() {
 		List<User> users = userDao.getAll();
@@ -22,7 +27,6 @@ public class UserService {
 			if (userLevelUpgradePolicy.canUpgradeLevel(user))
 				userLevelUpgradePolicy.upgradeLevel(user);
 		}
-
 	}
 
 	public void add(User user) {

@@ -25,9 +25,35 @@ public class UserServiceTest {
 	UserService userService;
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	UserLevelUpgradePolicy userLevelUpgradePolicy;
 
 	List<User> users;
-
+	
+	static class TestUserLevelUpgradePolicy extends UserLevelUpgradePolicySimple{
+		private String id;
+		
+		private TestUserLevelUpgradePolicy(String id){
+			this.id = id;
+		}
+		
+		private void setUserDao(UserDao userDao){
+			this.userDao = userDao;
+		}
+		
+		@Override
+		public void upgradeLevel(User user) {
+			if (user.getId().equals(this.id)) {
+				throw new TestUserServiceException();
+			}
+			super.upgradeLevel(user);
+		}
+		
+	}
+	static class TestUserServiceException extends RuntimeException{
+		private static final long serialVersionUID = 1L;
+	}
+	
 	@Before
 	public void setup() {
 		users = Arrays.asList(
@@ -47,6 +73,7 @@ public class UserServiceTest {
 
 	@Test
 	public void upgradeLevels() throws Exception {
+		userService.setUserLevelUpgradePolicy(userLevelUpgradePolicy);
 		userDao.deleteAll();
 		for (User user : users)
 			userDao.create(user);
@@ -91,6 +118,29 @@ public class UserServiceTest {
 	
 	private void checkLevel(User user, Level expectedLevel) {
 		User userUpdate = userDao.recieve(user.getId());
-		assertEquals(userUpdate.getLevel(), expectedLevel);
+		assertEquals(expectedLevel, userUpdate.getLevel());
+	}
+	
+	@Test
+	public void upgradeAllOrNothing() throws Exception {
+		UserService userService = this.userService;
+		TestUserLevelUpgradePolicy testPolicy = new TestUserLevelUpgradePolicy(users.get(3).getId());
+		testPolicy.setUserDao(userDao);
+		userService.setUserLevelUpgradePolicy(testPolicy);
+		userDao.deleteAll();
+		for(User user : users) userDao.create(user);
+		
+		try {
+			userService.upgradeLevels();
+			fail("testuserService exception expected");
+		} catch (TestUserServiceException e) {
+			
+		} finally{
+			userService.setUserLevelUpgradePolicy(new UserLevelUpgradePolicySimple());
+		}
+		checkLevel(users.get(3), users.get(3).getLevel());
+		checkLevel(users.get(1), users.get(1).getLevel());
+//		checkLevel(users.get(3), Level.SILVER);
+//		checkLevel(users.get(1), Level.BASIC);
 	}
 }
