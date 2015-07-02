@@ -77,7 +77,7 @@ public class UserServiceTest {
 		userDao.deleteAll();
 		for (User user : users)
 			userDao.create(user);
-
+		
 		userService.upgradeLevels();
 
 		checkLevel(users.get(0), Level.BASIC);
