@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -31,6 +32,8 @@ public class UserServiceTest {
 	DataSource dataSource;
 	@Autowired
 	UserLevelUpgradePolicy userLevelUpgradePolicy;
+	@Autowired
+	MailSender mailSender;
 
 	List<User> users;
 	
@@ -39,6 +42,9 @@ public class UserServiceTest {
 		
 		private TestUserLevelUpgradePolicy(String id){
 			this.id = id;
+		}
+		private void setMailSender(MailSender mailSender){
+			this.mailSender = mailSender;
 		}
 		
 		private void setUserDao(UserDao userDao){
@@ -130,7 +136,8 @@ public class UserServiceTest {
 		UserService userService = this.userService;
 		TestUserLevelUpgradePolicy testPolicy = new TestUserLevelUpgradePolicy(users.get(3).getId());
 		testPolicy.setUserDao(userDao);
-		userService.setDataSource(dataSource);
+		testPolicy.setMailSender(mailSender);
+//		어째서???? 
 		userService.setUserLevelUpgradePolicy(testPolicy);
 		userDao.deleteAll();
 		for(User user : users) userDao.create(user);

@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -27,9 +26,9 @@ public class UserDaoTest {
 	private UserDao userDao;
 	private User user1;
 	private User user2;
-	
+
 	@Before
-	public void setUp(){
+	public void setUp() {
 		user1 = new User();
 		user1.setId("jojo1");
 		user1.setName("jobi");
@@ -37,7 +36,7 @@ public class UserDaoTest {
 		user1.setLevel(Level.BASIC);
 		user1.setLogin(10);
 		user1.setRecommend(20);
-		
+
 		user2 = new User();
 		user2.setId("jojo2");
 		user2.setName("jobi");
@@ -65,19 +64,19 @@ public class UserDaoTest {
 		assertEquals(user1, dbUser);
 
 	}
-	
+
 	@Test
 	public void update() throws Exception {
 		userDao.deleteAll();
 		userDao.create(user1);
 		userDao.create(user2);
-		
+
 		user1.setName("hatao");
 		user1.setPassword("1234");
 		user1.setLevel(Level.GOLD);
-	
+
 		userDao.update(user1);
-		
+
 		User user1update = userDao.recieve(user1.getId());
 		checkSameUser(user1, user1update);
 		User user2update = userDao.recieve(user2.getId());
@@ -91,7 +90,7 @@ public class UserDaoTest {
 		assertEquals(user1.getLevel(), user2.getLevel());
 		assertEquals(user1.getLogin(), user2.getLogin());
 		assertEquals(user1.getRecommend(), user2.getRecommend());
-		
+
 	}
 
 	@Test(expected = EmptyResultDataAccessException.class)
@@ -108,19 +107,19 @@ public class UserDaoTest {
 
 		assertEquals(user1, dbUser);
 	}
-	
+
 	@Test
 	public void getAll() throws Exception {
 		userDao.deleteAll();
 		assertEquals(userDao.getAll().size(), 0);
 	}
-	
-//	@Test(expected = DuplicateKeyException.class)
+
+	// @Test(expected = DuplicateKeyException.class)
 	@Test(expected = DataAccessException.class)
-	public void duplicateKey() throws Exception {		
+	public void duplicateKey() throws Exception {
 		userDao.deleteAll();
 		userDao.create(user1);
 		userDao.create(user1);
 	}
-	
+
 }
