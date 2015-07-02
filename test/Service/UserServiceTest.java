@@ -7,6 +7,8 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +27,8 @@ public class UserServiceTest {
 	UserService userService;
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	DataSource dataSource;
 	@Autowired
 	UserLevelUpgradePolicy userLevelUpgradePolicy;
 
@@ -126,6 +130,7 @@ public class UserServiceTest {
 		UserService userService = this.userService;
 		TestUserLevelUpgradePolicy testPolicy = new TestUserLevelUpgradePolicy(users.get(3).getId());
 		testPolicy.setUserDao(userDao);
+		userService.setDataSource(dataSource);
 		userService.setUserLevelUpgradePolicy(testPolicy);
 		userDao.deleteAll();
 		for(User user : users) userDao.create(user);
