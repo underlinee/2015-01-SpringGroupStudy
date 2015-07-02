@@ -29,6 +29,9 @@ public class UserService {
 
 	@Autowired
 	UserLevelUpgradePolicy userLevelUpgradePolicy;
+	
+	@Autowired
+	PlatformTransactionManager transactionManager;
 
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
@@ -40,8 +43,7 @@ public class UserService {
 	}
 
 	void upgradeLevels() throws SQLException {
-//		PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
-		PlatformTransactionManager transactionManager = new JtaTransactionManager();
+		
 		TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 		
 		try {

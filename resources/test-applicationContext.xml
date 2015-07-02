@@ -13,6 +13,9 @@
 		class="org.springframework.jdbc.datasource.SimpleDriverDataSource"
 		p:driverClass="com.mysql.jdbc.Driver" p:url="jdbc:mysql://localhost/spring_test"
 		p:username="spring_developer" p:password="1111" />
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		c:dataSource-ref="dataSource"
+	/>
 		
 
 </beans>
