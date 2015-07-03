@@ -19,6 +19,15 @@ public class UserLevelUpgradePolicySimple implements UserLevelUpgradePolicy {
 
 	public static final int MIN_LOGCOUNT_FOR_SILVER = 50;
 	public static final int MIN_RECOMMEND_FOR_GOLD = 30;
+	
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+	
+	public void setMailSender(MailSender mailSender) {
+		this.mailSender = mailSender;
+	}
+
 
 	public boolean canUpgradeLevel(User user) {
 		Level currentLevel = user.getLevel();
