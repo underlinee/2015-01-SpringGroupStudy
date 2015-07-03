@@ -4,7 +4,7 @@
 	xmlns:c="http://www.springframework.org/schema/c"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="userService" class="Service.UserService" />
+	<bean id="userService" class="Service.UserServiceTx" />
 	<bean id="UserLevelUpgradePolicy" class="Service.UserLevelUpgradePolicySimple" />
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"
 		p:host="mail.server.com" />

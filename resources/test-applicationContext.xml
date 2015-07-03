@@ -3,20 +3,22 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:c="http://www.springframework.org/schema/c"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
-	
-	<bean id="mailSender" class="Service.DummyMailSender"/>
-	<bean id="userService" class="Service.UserService"/>
+
+
+	<bean id="mailSender" class="Service.DummyMailSender" />
+	<bean id="userService" class="Service.UserServiceTx"
+		p:userService-ref="userServiceImpl" />
+	<bean id="userServiceImpl" class="Service.UserServiceImpl" />
 	<bean id="UserLevelUpgradePolicy" class="Service.UserLevelUpgradePolicySimple" />
 	<bean id="userDao" class="Dao.UserDaoByJdbc" p:dataSource-ref="dataSource" />
-	
+
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.SimpleDriverDataSource"
 		p:driverClass="com.mysql.jdbc.Driver" p:url="jdbc:mysql://localhost/spring_test"
 		p:username="spring_developer" p:password="1111" />
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-		c:dataSource-ref="dataSource"
-	/>
-		
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		c:dataSource-ref="dataSource" />
+
 
 </beans>
